@@ -1,7 +1,38 @@
 <div class="container-top">
   <div class="container-poll">
     <div class="container-poll-inner">
-      siema
+      <h2>{{ selectedPoll.title }}</h2>
+      <p class="description">{{ selectedPoll?.description ?? 'Brak opisu' }}</p>
+      <form [formGroup]="pollForm">
+        <mat-form-field appearance="outline" class="form-input fix-suffix">
+          <mat-label>Twój login do konta szkolnego</mat-label>
+          <input class="email-input" type="text" formControlName="email" placeholder="ft18kowalskij" matInput />
+          <span class="input-suffix" matSuffix>@zsi.kielce.pl</span>
+
+          <mat-error *ngIf="email?.hasError('required')">
+            To pole jest wymagane!
+          </mat-error>
+          <mat-error *ngIf="email?.hasError('email') || email?.hasError('pattern')">
+            Błędny format - dozwolone są jedynie znaki alfanumeryczne!
+          </mat-error>
+        </mat-form-field>
+
+        <h3>Twój głos:</h3>
+        <mat-radio-group formControlName="option" class="radio-group">
+          <mat-radio-button *ngFor="let opt of selectedPoll.options" [value]="opt.id">
+            {{opt.content}}
+          </mat-radio-button>
+        </mat-radio-group>
+
+        <button
+          type="submit"
+          mat-raised-button
+          color="primary"
+          [disabled]="pollForm.invalid"
+        >
+          Wyślij!
+        </button>
+      </form>
     </div>
   </div>
 </div>
