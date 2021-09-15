@@ -1,6 +1,9 @@
 <div class="container-top">
   <div class="container-poll">
     <div class="container-poll-inner">
+      <div class="logo-container">
+        <app-logo></app-logo>
+      </div>
       <h2>{{ selectedPoll.title }}</h2>
       <p class="description">{{ selectedPoll?.description ?? 'Brak opisu' }}</p>
       <form [formGroup]="pollForm">
