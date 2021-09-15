@@ -1,0 +1,22 @@
+@use '~@angular/material' as mat;
+@import "~app/styles/responsive.mixin";
+@import "~app/styles/vars";
+
+.container-top {
+  min-height: 100vh;
+  background-color: $bg-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-poll {
+  @include mat.elevation(2);
+  width: 50%;
+  height: auto;
+  border-radius: 16px;
+}
+
+.container-poll-inner {
+  padding: 3em;
+}

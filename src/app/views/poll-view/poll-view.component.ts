@@ -7,13 +7,13 @@ import {ActivatedRoute} from "@angular/router";
   styleUrls: ['./poll-view.component.scss']
 })
 export class PollViewComponent implements OnInit {
-  selectedId: number = 0;
+  selectedId: number = -1;
 
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      this.selectedId = parseInt(params.get('id') ?? 'invalid');
+      this.selectedId = parseInt(params.get('id') ?? '-1');
     })
   }
 
