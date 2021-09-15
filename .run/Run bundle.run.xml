@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run bundle" type="CompoundRunConfigurationType">
+    <toRun name="Run fake backend" type="ShConfigurationType" />
+    <toRun name="Angular CLI Server" type="js.build_tools.npm" />
+    <method v="2" />
+  </configuration>
+</component>
