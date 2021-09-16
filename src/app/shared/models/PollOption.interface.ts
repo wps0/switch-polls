@@ -1,6 +1,6 @@
-import {OptionExtras} from "./OptionExtras.interface";
+import {OptionExtras} from './OptionExtras.interface';
 
-export interface PollOption {
+export interface IPollOption {
   id: number;
   content: string;
   extras?: OptionExtras[];

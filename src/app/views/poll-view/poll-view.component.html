@@ -4,12 +4,19 @@
       <div class="logo-container">
         <app-logo></app-logo>
       </div>
-      <h2>{{ selectedPoll.title }}</h2>
-      <p class="description">{{ selectedPoll?.description ?? 'Brak opisu' }}</p>
+      <h2>{{ (selectedPoll$ | async)?.title }}</h2>
+      <p class="description">
+        {{ (selectedPoll$ | async)?.description ?? "Brak opisu" }}
+      </p>
       <form [formGroup]="pollForm">
         <mat-form-field appearance="outline" class="form-input fix-suffix">
           <mat-label>Twój login do konta szkolnego</mat-label>
-          <input class="email-input" type="text" formControlName="email" placeholder="ft18kowalskij" matInput />
+          <input
+            class="email-input"
+            type="text"
+            formControlName="email"
+            placeholder="ft18kowalskij"
+            matInput />
           <span class="input-suffix" matSuffix>@zsi.kielce.pl</span>
 
           <mat-error *ngIf="email?.hasError('required')">
@@ -22,8 +29,10 @@
 
         <h3>Twój głos:</h3>
         <mat-radio-group formControlName="option" class="radio-group">
-          <mat-radio-button *ngFor="let opt of selectedPoll.options" [value]="opt.id">
-            {{opt.content}}
+          <mat-radio-button
+            *ngFor="let opt of (selectedPoll$ | async)?.options"
+            [value]="opt.id">
+            {{ opt.content }}
           </mat-radio-button>
         </mat-radio-group>
 
@@ -31,8 +40,7 @@
           type="submit"
           mat-raised-button
           color="primary"
-          [disabled]="pollForm.invalid"
-        >
+          [disabled]="pollForm.invalid">
           Wyślij!
         </button>
       </form>

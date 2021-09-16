@@ -1,7 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { PollInterface } from '@shared/models/Poll.interface';
-import { FormBuilder, Validators } from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {IPoll} from '@shared/models/IPoll';
+import {FormBuilder, Validators} from '@angular/forms';
+import {Observable, of} from 'rxjs';
+import {PollState} from '@store/poll/poll.state';
+import {Store} from '@ngrx/store';
+import {selectPoll} from '@store/poll/poll.selectors';
+import {GET_POLL,} from '@store/poll/poll.actions';
 
 @Component({
   selector: 'app-poll-view',
@@ -25,28 +30,29 @@ export class PollViewComponent implements OnInit {
     ],
   });
   selectedId: number = -1;
-  selectedPoll: PollInterface = {
-    title: 'Loading...',
-    options: [
-      {
-        id: 1,
-        content: 'Loading...',
-      },
-    ],
-  };
+  selectedPoll$: Observable<IPoll> = of();
 
   constructor(
     private fb: FormBuilder,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private pollStore: Store<PollState>
   ) {}
+
+  ngOnInit(): void {
+    this.selectedPoll$ = this.pollStore.select(selectPoll);
+    this.activatedRoute.paramMap.subscribe((params) => {
+      let newId = parseInt(params.get('id') ?? '-1');
+      if (newId !== this.selectedId) {
+        this.selectedId = newId;
+        this.pollStore.dispatch({
+          type: GET_POLL,
+          pollId: this.selectedId,
+        });
+      }
+    });
+  }
 
   get email() {
     return this.pollForm.get('email');
-  }
-
-  ngOnInit(): void {
-    this.activatedRoute.paramMap.subscribe((params) => {
-      this.selectedId = parseInt(params.get('id') ?? '-1');
-    });
   }
 }

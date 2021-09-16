@@ -1,15 +1,16 @@
 export enum RouteUtils {
-  POLL = "poll/:id"
+  POLL = 'polls/:id',
 }
 
 export interface UrlArguments {
-  pollId?: string
+  id?: number;
 }
 
-export const format = (text: string, patterns: UrlArguments) => {
+export const format = (text: string, patterns: UrlArguments): string => {
   const keys = Object.keys(patterns);
   for (const key of keys) {
     // @ts-ignore
-    text = text.replace(`%{${key}}`, patterns[key]);
+    text = text.replace(`:${key}`, patterns[key]);
   }
-}
+  return text;
+};
