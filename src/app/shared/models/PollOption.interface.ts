@@ -1,4 +1,4 @@
-import {OptionExtras} from './OptionExtras.interface';
+import { OptionExtras } from './OptionExtras.interface';
 
 export interface IPollOption {
   id: number;

@@ -22,18 +22,27 @@
           <mat-error *ngIf="email?.hasError('required')">
             To pole jest wymagane!
           </mat-error>
-          <mat-error *ngIf="email?.hasError('email') || email?.hasError('pattern')">
+          <mat-error *ngIf="email?.hasError('pattern')">
             Błędny format - dozwolone są jedynie znaki alfanumeryczne!
           </mat-error>
         </mat-form-field>
 
         <h3>Twój głos:</h3>
         <mat-radio-group formControlName="option" class="radio-group">
-          <mat-radio-button
+          <div
             *ngFor="let opt of (selectedPoll$ | async)?.options"
-            [value]="opt.id">
-            {{ opt.content }}
-          </mat-radio-button>
+            class="single-radio-container">
+            <mat-radio-button [value]="opt.id">
+              <div class="radio-content">
+                {{ opt.content }}
+              </div>
+            </mat-radio-button>
+            <app-audio-player
+              *ngIf="opt | extractExtraFromPollOption: 'url/sound'"
+              [src]="
+                opt | extractExtraFromPollOption: 'url/sound'
+              "></app-audio-player>
+          </div>
         </mat-radio-group>
 
         <button

@@ -1,0 +1,18 @@
+<div class="player-container">
+  <button
+    type="button"
+    mat-icon-button
+    (click)="onPlaybackChangeButtonClick()"
+    [disabled]="playbackBlocked">
+    <mat-icon>{{ playing ? "pause" : "play_arrow" }}</mat-icon>
+  </button>
+  <mat-slider
+    [disabled]="playbackBlocked"
+    [value]="audio.currentTime"
+    [max]="audio.duration"
+    (change)="onSliderDrag()"></mat-slider>
+  <div class="time-container">
+    <span>{{ audio.currentTime | toMinuteString }}</span> /
+    <span>{{ audio.duration | toMinuteString }}</span>
+  </div>
+</div>

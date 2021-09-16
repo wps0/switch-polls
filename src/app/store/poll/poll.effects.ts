@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {GetPoll, UPDATE_SELECTED_POLL} from './poll.actions';
-import {catchError, map, switchMap} from 'rxjs/operators';
-import {BackendService} from '../../shared/services/backend.service';
-import {EMPTY} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { GetPoll, UPDATE_SELECTED_POLL } from './poll.actions';
+import { catchError, map, switchMap } from 'rxjs/operators';
+import { BackendService } from '@shared/services/backend.service';
+import { EMPTY } from 'rxjs';
 
 @Injectable()
 export class PollEffects {

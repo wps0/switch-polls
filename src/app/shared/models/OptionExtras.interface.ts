@@ -1,4 +1,4 @@
 export interface OptionExtras {
-  type: string;
+  type: 'url/sound';
   value: string;
 }
