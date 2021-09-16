@@ -1,5 +1,6 @@
-import {createAction, props} from '@ngrx/store';
-import {IPoll} from '@shared/models/IPoll';
+import { createAction, props } from '@ngrx/store';
+import { IPoll } from '@shared/models/IPoll';
+import { UserData } from '@shared/models/UserData';
 
 export const UPDATE_SELECTED_POLL = '[Poll] Update selected';
 
@@ -17,4 +18,7 @@ export const UpdateSelectedPoll = createAction(
 export const GetPoll = createAction(GET_POLL, props<{ pollId: number }>());
 export const GetResults = createAction(GET_RESULTS, props<{ pollId: number }>());
 
-export const AddVote = createAction(ADD_VOTE, props<{ optId: number }>());
+export const AddVote = createAction(
+  ADD_VOTE,
+  props<{ optId: number; userData: UserData }>()
+);

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatSlider } from '@angular/material/slider';
 
 @Component({
@@ -6,7 +6,7 @@ import { MatSlider } from '@angular/material/slider';
   templateUrl: './audio-player.component.html',
   styleUrls: ['./audio-player.component.scss'],
 })
-export class AudioPlayerComponent implements OnInit, AfterViewInit {
+export class AudioPlayerComponent implements OnInit {
   @Input()
   src: string | undefined;
   @ViewChild(MatSlider)
@@ -19,9 +19,6 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit {
     this.audio.ontimeupdate = () => {
       this.slider.value = this.audio.currentTime;
     };
-  }
-
-  ngAfterViewInit() {
     this.audio.load();
     this.onAudioLoad();
   }

@@ -29,7 +29,11 @@
 }
 
 .container-poll-inner {
-  padding: 3em;
+  padding: 1.5em;
+
+  @include screen('tablet-portrait') {
+    padding: 3em;
+  }
 }
 
 .radio-group {
@@ -61,9 +65,21 @@
 .description {
   opacity: 0.7;
   font-size: 0.9em;
+  text-align: justify;
 }
 
 .single-radio-container {
   display: flex;
   flex-direction: column;
+}
+
+.button-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: right;
+  align-items: center;
+}
+
+.button-container :not(:first-child) {
+  margin-left: 1em;
 }

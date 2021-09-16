@@ -14,10 +14,16 @@ import * as fromPoll from '@store/poll/poll.reducer';
 import { PollEffects } from '@store/poll/poll.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { HttpClientModule } from '@angular/common/http';
-import { AudioPlayerComponent } from './shared/components/audio-player/audio-player.component';
-import { ExtractExtraFromPollOptionPipe } from './shared/pipes/extract-extra.pipe';
+import { AudioPlayerComponent } from '@shared/components/audio-player/audio-player.component';
+import { ExtractExtraFromPollOptionPipe } from '@shared/pipes/extract-extra.pipe';
 import { MatSliderModule } from '@angular/material/slider';
-import { ToMinuteStringPipe } from './shared/pipes/to-minute-string.pipe';
+import { ToMinuteStringPipe } from '@shared/pipes/to-minute-string.pipe';
+import {
+  RECAPTCHA_V3_SITE_KEY,
+  RecaptchaModule,
+  RecaptchaV3Module,
+} from 'ng-recaptcha';
+import { environment } from '@environments/environment';
 
 @NgModule({
   declarations: [
@@ -36,13 +42,17 @@ import { ToMinuteStringPipe } from './shared/pipes/to-minute-string.pipe';
     ReactiveFormsModule,
     MaterialModule,
     HttpClientModule,
+    RecaptchaV3Module,
     StoreModule.forRoot({
       poll: fromPoll.pollReducer,
     }),
     EffectsModule.forRoot([PollEffects]),
     MatSliderModule,
+    RecaptchaModule,
   ],
-  providers: [],
+  providers: [
+    { provide: RECAPTCHA_V3_SITE_KEY, useValue: environment.captchaSiteKey },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
