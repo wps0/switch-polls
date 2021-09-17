@@ -1,0 +1,62 @@
+@use '~@angular/material' as mat;
+@include mat.core();
+
+$zsi-primary-palette: (
+  '50': 'e0e9f2',
+  '100': 'b3c8de',
+  '200': '80a3c8',
+  '300': '4d7eb2',
+  '400': '2662a2',
+  '500': '004691',
+  '600': '003f89',
+  '700': '00377e',
+  '800': '002f74',
+  '900': '002062',
+  'A100': '92abff',
+  'A200': '5f84ff',
+  'A400': '2c5dff',
+  'A700': '1349ff',
+  'contrast': (
+    '300': '4d7eb2',
+    '400': '2662a2',
+    '500': '004691',
+    '600': '003f89',
+    '700': '00377e',
+    '800': '002f74',
+    '900': '002062',
+    'A400': '2c5dff',
+    'A700': '1349ff',
+  )
+);
+$zsi-accent-palette: (
+  '50': 'feece4',
+  '100': 'fdd0bc',
+  '200': 'fbb190',
+  '300': 'f99164',
+  '400': 'f87a42',
+  '500': 'f76221',
+  '600': 'f65a1d',
+  '700': 'f55018',
+  '800': 'f34614',
+  '900': 'f1340b',
+  'A100': 'ffffff',
+  'A200': 'ffebe8',
+  'A400': 'ffbfb5',
+  'A700': 'ffaa9c',
+  'contrast': (
+    '700': 'f55018',
+    '800': 'f34614',
+    '900': 'f1340b',
+  )
+);
+
+$zsi-primary: mat.define-palette($zsi-primary-palette);
+$zsi-accent: mat.define-palette($zsi-accent-palette);
+
+$site-theme: mat.define-light-theme(
+    $zsi-primary,
+    $zsi-accent,
+    mat.$amber-palette
+);
+
+@include mat.all-component-themes($site-theme);
