@@ -2,7 +2,7 @@
 @import "~app/styles/vars";
 
 html, body {
-  height: 100%;
+  min-height: 100%;
 }
 
 body {
@@ -12,6 +12,18 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   background-color: $dimmed-bg-color;
 }
+
+.button-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: right;
+  align-items: center;
+}
+
+.button-container :not(:first-child) {
+  margin-left: 1em;
+}
+
 
 /* https://github.com/angular/components/issues/12803 */
 .fix-suffix.mat-form-field-appearance-outline .mat-form-field-suffix {

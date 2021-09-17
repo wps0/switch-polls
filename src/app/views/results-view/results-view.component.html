@@ -1,1 +1,9 @@
-<app-poll-view-root> </app-poll-view-root>
+<app-poll-view-root (selectedIdChange)="onSelectedIdChange($event)">
+  <h3>Wyniki:</h3>
+
+  <div class="button-container">
+    <button type="button" mat-button [routerLink]="resultsUrl" color="accent">
+      Wróć
+    </button>
+  </div>
+</app-poll-view-root>
