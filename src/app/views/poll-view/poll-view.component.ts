@@ -1,15 +1,16 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IPoll } from '@shared/models/IPoll';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Observable, of, Subscription } from 'rxjs';
 import { PollState } from '@store/poll/poll.state';
 import { Store } from '@ngrx/store';
-import { selectPoll } from '@store/poll/poll.selectors';
-import { ADD_VOTE, GET_POLL } from '@store/poll/poll.actions';
+import { selectPoll, selectResponse } from '@store/poll/poll.selectors';
+import { ADD_VOTE } from '@store/poll/poll.actions';
 import { ReCaptchaV3Service } from 'ng-recaptcha';
 import { NotificationsService } from '@shared/services/notifications.service';
 import { UserData } from '@shared/models/UserData';
+import { format, RouteUtils } from '@shared/RouteUtils';
 
 @Component({
   selector: 'app-poll-view',
@@ -17,6 +18,7 @@ import { UserData } from '@shared/models/UserData';
   styleUrls: ['./poll-view.component.scss'],
 })
 export class PollViewComponent implements OnInit, OnDestroy {
+  selectedId: number = -1;
   pollForm = this.fb.group({
     email: [
       '',
@@ -31,44 +33,36 @@ export class PollViewComponent implements OnInit, OnDestroy {
       },
     ],
   });
-  selectedId: number = -1;
   submissionDisabled: boolean = false;
   selectedPoll$: Observable<IPoll> = of();
-  recaptcha$!: Subscription;
+  response$: Observable<string> = of();
+  responseSubscription$!: Subscription;
+  recaptcha$: Subscription | undefined;
 
   constructor(
     private fb: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private pollStore: Store<PollState>,
-    private reCaptchaV3Service: ReCaptchaV3Service
+    private reCaptchaV3Service: ReCaptchaV3Service,
+    private notificationsService: NotificationsService
   ) {}
 
   ngOnInit(): void {
+    this.response$ = this.pollStore.select(selectResponse);
     this.selectedPoll$ = this.pollStore.select(selectPoll);
-    this.activatedRoute.paramMap.subscribe((params) => {
-      let newId = parseInt(params.get('id') ?? '-1');
-      if (newId >= 0 && newId !== this.selectedId) {
-        this.selectedId = newId;
-        this.recaptcha$ = this.reCaptchaV3Service
-          .execute('poll_get')
-          .subscribe((token) => {
-            const userData: UserData = {
-              username: this.username?.value,
-              userAgent: window.navigator.userAgent,
-              recaptchaToken: token,
-            };
-            this.pollStore.dispatch({
-              type: GET_POLL,
-              pollId: newId,
-              userData: userData,
-            });
-          });
+    this.responseSubscription$ = this.response$.subscribe((text) => {
+      this.submissionDisabled = false;
+      if (text.length != 0) {
+        this.notificationsService.sendNotification(text, 5000);
       }
     });
   }
 
   ngOnDestroy() {
-    this.recaptcha$.unsubscribe();
+    if (this.recaptcha$) {
+      this.recaptcha$.unsubscribe();
+    }
+    this.responseSubscription$.unsubscribe();
   }
 
   onSubmit() {
@@ -90,6 +84,19 @@ export class PollViewComponent implements OnInit, OnDestroy {
           userData: userData,
         });
       });
+  }
+
+  onSelectedIdChange(newId: number) {
+    this.selectedId = newId;
+  }
+
+  get resultsUrl() {
+    return (
+      '/' +
+      format(RouteUtils.POLL_RESULTS, {
+        id: this.selectedId,
+      })
+    );
   }
 
   get username() {

@@ -24,6 +24,8 @@ import {
   RecaptchaV3Module,
 } from 'ng-recaptcha';
 import { environment } from '@environments/environment';
+import { ResultsViewComponent } from './views/results-view/results-view.component';
+import { PollViewRootComponent } from './views/poll-view-root/poll-view-root.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,8 @@ import { environment } from '@environments/environment';
     AudioPlayerComponent,
     ExtractExtraFromPollOptionPipe,
     ToMinuteStringPipe,
+    ResultsViewComponent,
+    PollViewRootComponent,
   ],
   imports: [
     BrowserModule,

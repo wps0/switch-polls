@@ -6,6 +6,7 @@ import { IPoll } from '../models/IPoll';
 import { UserData } from '@shared/models/UserData';
 import { IVoteRequest } from '@shared/models/IVoteRequest';
 import { IVoteResponse } from '@shared/models/IVoteResponse';
+import { IResultsSummary } from '@shared/models/IResultsSummary';
 
 @Injectable({
   providedIn: 'root',
@@ -30,11 +31,19 @@ export class BackendService {
         userAgent: userData.userAgent,
       },
     };
-    console.log(voteRequest);
     const body = JSON.stringify(voteRequest);
     return this.httpClient.post<IVoteResponse>(
       environment.apiUrl + RouteUtils.POLL_VOTE,
       body,
+      { headers: this.getHeaders(userData.recaptchaToken) }
+    );
+  }
+
+  getResultsSummary(pollId: number, userData: UserData) {
+    return this.httpClient.get<IResultsSummary>(
+      format(environment.apiUrl + RouteUtils.POLL_RESULTS, {
+        id: pollId,
+      }),
       { headers: this.getHeaders(userData.recaptchaToken) }
     );
   }

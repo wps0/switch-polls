@@ -2,40 +2,6 @@
 @import "~app/styles/responsive.mixin";
 @import "~app/styles/vars";
 
-.container-top {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.container-poll {
-  @include mat.elevation(2);
-  background-color: #ffffff;
-  height: auto;
-  border-radius: 16px;
-
-  width: 100%;
-  margin: 1em;
-  @include screen('tablet-landscape') {
-    width: 75%;
-  }
-  @include screen('desktop') {
-    width: 50%;
-  }
-}
-
-.logo-container {
-  margin-bottom: 32px;
-}
-
-.container-poll-inner {
-  padding: 1.5em;
-
-  @include screen('tablet-portrait') {
-    padding: 3em;
-  }
-}
-
 .radio-group {
   display: flex;
   flex-direction: column;

@@ -1,62 +1,51 @@
-<div class="container-top">
-  <div class="container-poll">
-    <div class="container-poll-inner">
-      <div class="logo-container">
-        <app-logo></app-logo>
-      </div>
-      <h2>{{ (selectedPoll$ | async)?.title }}</h2>
-      <p class="description">
-        {{ (selectedPoll$ | async)?.description ?? "Brak opisu" }}
-      </p>
-      <form [formGroup]="pollForm" (ngSubmit)="onSubmit()">
-        <mat-form-field appearance="outline" class="form-input fix-suffix">
-          <mat-label>Twój login do konta szkolnego</mat-label>
-          <input
-            class="email-input"
-            type="text"
-            formControlName="email"
-            placeholder="ft18kowalskij"
-            matInput />
-          <span class="input-suffix" matSuffix>@zsi.kielce.pl</span>
+<app-poll-view-root (selectedIdChange)="onSelectedIdChange($event)">
+  <form [formGroup]="pollForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline" class="form-input fix-suffix">
+      <mat-label>Twój login do konta szkolnego</mat-label>
+      <input
+        class="email-input"
+        type="text"
+        formControlName="email"
+        placeholder="ft18kowalskij"
+        matInput />
+      <span class="input-suffix" matSuffix>@zsi.kielce.pl</span>
 
-          <mat-error *ngIf="username?.hasError('required')">
-            To pole jest wymagane!
-          </mat-error>
-          <mat-error *ngIf="username?.hasError('pattern')">
-            Błędny format - dozwolone są jedynie znaki alfanumeryczne!
-          </mat-error>
-        </mat-form-field>
+      <mat-error *ngIf="username?.hasError('required')">
+        To pole jest wymagane!
+      </mat-error>
+      <mat-error *ngIf="username?.hasError('pattern')">
+        Błędny format - dozwolone są jedynie znaki alfanumeryczne!
+      </mat-error>
+    </mat-form-field>
 
-        <h3>Twój głos:</h3>
-        <mat-radio-group formControlName="option" class="radio-group">
-          <div
-            *ngFor="let opt of (selectedPoll$ | async)?.options"
-            class="single-radio-container">
-            <mat-radio-button [value]="opt.id">
-              <div class="radio-content">
-                {{ opt.content }}
-              </div>
-            </mat-radio-button>
-            <app-audio-player
-              *ngIf="opt | extractExtraFromPollOption: 'url/sound'"
-              [src]="
-                opt | extractExtraFromPollOption: 'url/sound'
-              "></app-audio-player>
+    <h3>Twój głos:</h3>
+    <mat-radio-group formControlName="option" class="radio-group">
+      <div
+        *ngFor="let opt of (selectedPoll$ | async)?.options"
+        class="single-radio-container">
+        <mat-radio-button [value]="opt.id">
+          <div class="radio-content">
+            {{ opt.content }}
           </div>
-        </mat-radio-group>
+        </mat-radio-button>
+        <app-audio-player
+          *ngIf="opt | extractExtraFromPollOption: 'url/sound'"
+          [src]="opt | extractExtraFromPollOption: 'url/sound'"></app-audio-player>
+      </div>
+    </mat-radio-group>
 
-        <div class="button-container">
-          <mat-spinner *ngIf="submissionDisabled" diameter="16"></mat-spinner>
-          <button type="button" mat-button color="accent">Wyniki (TODO)</button>
-          <button
-            type="submit"
-            mat-raised-button
-            color="primary"
-            [disabled]="pollForm.invalid || submissionDisabled">
-            Wyślij!
-          </button>
-        </div>
-      </form>
+    <div class="button-container">
+      <mat-spinner *ngIf="submissionDisabled" diameter="16"></mat-spinner>
+      <button type="button" mat-button [routerLink]="resultsUrl" color="accent">
+        Wyniki (TODO)
+      </button>
+      <button
+        type="submit"
+        mat-raised-button
+        color="primary"
+        [disabled]="pollForm.invalid || submissionDisabled">
+        Wyślij!
+      </button>
     </div>
-  </div>
-</div>
+  </form>
+</app-poll-view-root>
