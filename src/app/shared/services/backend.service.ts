@@ -19,7 +19,7 @@ export class BackendService {
       format(environment.apiUrl + RouteUtils.POLL, {
         id: id,
       }),
-      { headers: this.getHeaders(recaptchaToken) }
+      { headers: BackendService.getHeaders(recaptchaToken) }
     );
   }
 
@@ -35,7 +35,7 @@ export class BackendService {
     return this.httpClient.post<IVoteResponse>(
       environment.apiUrl + RouteUtils.POLL_VOTE,
       body,
-      { headers: this.getHeaders(userData.recaptchaToken) }
+      { headers: BackendService.getHeaders(userData.recaptchaToken) }
     );
   }
 
@@ -44,11 +44,11 @@ export class BackendService {
       format(environment.apiUrl + RouteUtils.POLL_RESULTS, {
         id: pollId,
       }),
-      { headers: this.getHeaders(userData.recaptchaToken) }
+      { headers: BackendService.getHeaders(userData.recaptchaToken) }
     );
   }
 
-  private getHeaders(recaptchaToken: string): HttpHeaders {
+  private static getHeaders(recaptchaToken: string): HttpHeaders {
     let headers = new HttpHeaders();
     headers = headers.set('g-recaptcha-response', recaptchaToken);
     return headers;

@@ -1,14 +1,6 @@
-import { AfterViewChecked, Component, Input, OnInit } from '@angular/core';
-import {
-  ArcElement,
-  Chart,
-  PieController,
-  registerables,
-  Title,
-  Tooltip,
-} from 'chart.js';
+import { Component, Input, OnInit } from '@angular/core';
+import { ArcElement, Chart, PieController, Tooltip } from 'chart.js';
 import { IChartData } from '@shared/models/IChartData';
-import { of } from 'rxjs';
 
 @Component({
   selector: 'app-chart',
@@ -44,7 +36,7 @@ export class ChartComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    Chart.register(...registerables);
+    Chart.register(PieController, ArcElement, Tooltip);
     // @ts-ignore
     this.chartCanvas = document.getElementById('chart-canvas');
     this.chart = new Chart(this.chartCanvas, {

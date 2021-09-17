@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IPoll } from '@shared/models/IPoll';
 import { FormBuilder, Validators } from '@angular/forms';

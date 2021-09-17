@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { format, RouteUtils } from '@shared/RouteUtils';
 import { Store } from '@ngrx/store';
 import { PollState } from '@store/poll/poll.state';
@@ -15,9 +9,7 @@ import { Observable, Subscription } from 'rxjs';
 import { IChartData } from '@shared/models/IChartData';
 import { IResultsSummary } from '@shared/models/IResultsSummary';
 import { selectResults } from '@store/poll/poll.selectors';
-import { MatTableDataSource } from '@angular/material/table';
 import { IResult } from '@shared/models/IResult';
-import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-results-view',
