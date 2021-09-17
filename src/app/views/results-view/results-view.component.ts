@@ -1,20 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { format, RouteUtils } from '@shared/RouteUtils';
 import { Store } from '@ngrx/store';
 import { PollState } from '@store/poll/poll.state';
 import { GET_RESULTS } from '@store/poll/poll.actions';
 import { UserData } from '@shared/models/UserData';
 import { ReCaptchaV3Service } from 'ng-recaptcha';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { IChartData } from '@shared/models/IChartData';
+import { IResultsSummary } from '@shared/models/IResultsSummary';
+import { selectResults } from '@store/poll/poll.selectors';
 
 @Component({
   selector: 'app-results-view',
   templateUrl: './results-view.component.html',
   styleUrls: ['./results-view.component.scss'],
 })
-export class ResultsViewComponent implements OnInit {
+export class ResultsViewComponent implements OnInit, OnDestroy {
   selectedId: number = 0;
+  results$!: Observable<IResultsSummary>;
+  resultsSub$!: Subscription;
   recaptcha$: Subscription | undefined;
+  chartData: IChartData = { data: [], labels: [] };
 
   constructor(
     private pollStore: Store<PollState>,
@@ -22,6 +28,13 @@ export class ResultsViewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.results$ = this.pollStore.select(selectResults);
+    this.resultsSub$ = this.results$.subscribe((newResults) => {
+      this.chartData = {
+        labels: newResults.summary.map((res) => res.content),
+        data: newResults.summary.map((res) => res.count),
+      };
+    });
     this.recaptcha$ = this.reCaptchaV3Service
       .execute('poll_results_get')
       .subscribe((token) => {
@@ -36,6 +49,10 @@ export class ResultsViewComponent implements OnInit {
           userData: userData,
         });
       });
+  }
+
+  ngOnDestroy() {
+    this.resultsSub$.unsubscribe();
   }
 
   onSelectedIdChange(newId: number) {

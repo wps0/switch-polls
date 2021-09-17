@@ -8,3 +8,4 @@ export const selectResponse = createSelector(
   pollFeature,
   (state) => state.backendResponse
 );
+export const selectResults = createSelector(pollFeature, (state) => state.results);

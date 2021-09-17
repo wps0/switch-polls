@@ -24,8 +24,9 @@ import {
   RecaptchaV3Module,
 } from 'ng-recaptcha';
 import { environment } from '@environments/environment';
-import { ResultsViewComponent } from './views/results-view/results-view.component';
-import { PollViewRootComponent } from './views/poll-view-root/poll-view-root.component';
+import { ResultsViewComponent } from '@views/results-view/results-view.component';
+import { PollViewRootComponent } from '@views/poll-view-root/poll-view-root.component';
+import { ChartComponent } from './shared/components/chart/chart.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { PollViewRootComponent } from './views/poll-view-root/poll-view-root.com
     ToMinuteStringPipe,
     ResultsViewComponent,
     PollViewRootComponent,
+    ChartComponent,
   ],
   imports: [
     BrowserModule,

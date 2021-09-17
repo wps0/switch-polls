@@ -1,4 +1,5 @@
 export interface IResult {
-  optionId: number;
-  votes: number;
+  id: number;
+  content: string;
+  count: number;
 }

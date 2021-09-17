@@ -1,6 +1,8 @@
 <app-poll-view-root (selectedIdChange)="onSelectedIdChange($event)">
   <h3>Wyniki:</h3>
-
+  <div class="results-container">
+    <app-chart [chartData]="chartData"></app-chart>
+  </div>
   <div class="button-container">
     <button type="button" mat-button [routerLink]="resultsUrl" color="accent">
       Wróć
