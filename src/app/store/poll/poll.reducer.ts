@@ -1,6 +1,6 @@
-import {createReducer, on} from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 import * as Actions from './poll.actions';
-import {PollState} from '@store/poll/poll.state';
+import { PollState } from '@store/poll/poll.state';
 
 const initialState: PollState = {
   selectedPoll: {
@@ -17,7 +17,9 @@ export const pollReducer = createReducer(
     selectedPoll: action.newPoll,
   })),
   on(Actions.GetPoll, (state) => {
-    console.log('reducer get poll');
+    return state;
+  }),
+  on(Actions.VoteRecorded, (state) => {
     return state;
   })
 );

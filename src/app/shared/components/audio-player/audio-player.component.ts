@@ -13,6 +13,7 @@ export class AudioPlayerComponent implements OnInit {
   slider!: MatSlider;
   audio!: HTMLAudioElement;
   playbackBlocked: boolean = true;
+  sliderBeingDragged: boolean = false;
 
   ngOnInit() {
     this.audio = new Audio(this.src);
@@ -31,6 +32,12 @@ export class AudioPlayerComponent implements OnInit {
     }
   }
 
+  startPlayback() {
+    if (!this.audio.paused) {
+      this.audio.play();
+    }
+  }
+
   onAudioLoad() {
     this.playbackBlocked = false;
   }
@@ -39,8 +46,14 @@ export class AudioPlayerComponent implements OnInit {
     this.changePlayback();
   }
 
-  onSliderDrag() {
+  onSliderDragEnd() {
     this.audio.currentTime = this.slider.value;
+    this.sliderBeingDragged = false;
+    this.startPlayback();
+  }
+
+  onSliderDrag() {
+    this.sliderBeingDragged = true;
   }
 
   get playing() {

@@ -10,7 +10,8 @@
     [disabled]="playbackBlocked"
     [value]="audio.currentTime"
     [max]="audio.duration"
-    (change)="onSliderDrag()"></mat-slider>
+    (change)="onSliderDragEnd()"
+    (input)="onSliderDrag()"></mat-slider>
   <div class="time-container">
     <span>{{ audio.currentTime | toMinuteString }}</span> /
     <span>{{ audio.duration | toMinuteString }}</span>

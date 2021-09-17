@@ -8,6 +8,7 @@ export const GET_POLL = '[Poll] Get poll';
 export const GET_RESULTS = '[Poll] Get results';
 
 export const ADD_VOTE = '[Poll] Add vote';
+export const VOTE_RECORDED = '[Poll] Vote recorded';
 
 export const UpdateSelectedPoll = createAction(
   UPDATE_SELECTED_POLL,
@@ -15,10 +16,14 @@ export const UpdateSelectedPoll = createAction(
 );
 
 // used for effects
-export const GetPoll = createAction(GET_POLL, props<{ pollId: number }>());
+export const GetPoll = createAction(
+  GET_POLL,
+  props<{ pollId: number; userData: UserData }>()
+);
 export const GetResults = createAction(GET_RESULTS, props<{ pollId: number }>());
 
 export const AddVote = createAction(
   ADD_VOTE,
   props<{ optId: number; userData: UserData }>()
 );
+export const VoteRecorded = createAction(VOTE_RECORDED);

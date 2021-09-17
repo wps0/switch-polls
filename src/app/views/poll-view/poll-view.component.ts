@@ -40,20 +40,29 @@ export class PollViewComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private pollStore: Store<PollState>,
-    private reCaptchaV3Service: ReCaptchaV3Service,
-    private notificationsService: NotificationsService
+    private reCaptchaV3Service: ReCaptchaV3Service
   ) {}
 
   ngOnInit(): void {
     this.selectedPoll$ = this.pollStore.select(selectPoll);
     this.activatedRoute.paramMap.subscribe((params) => {
       let newId = parseInt(params.get('id') ?? '-1');
-      if (newId !== this.selectedId) {
+      if (newId >= 0 && newId !== this.selectedId) {
         this.selectedId = newId;
-        this.pollStore.dispatch({
-          type: GET_POLL,
-          pollId: this.selectedId,
-        });
+        this.recaptcha$ = this.reCaptchaV3Service
+          .execute('poll_get')
+          .subscribe((token) => {
+            const userData: UserData = {
+              username: this.username?.value,
+              userAgent: window.navigator.userAgent,
+              recaptchaToken: token,
+            };
+            this.pollStore.dispatch({
+              type: GET_POLL,
+              pollId: newId,
+              userData: userData,
+            });
+          });
       }
     });
   }
@@ -77,7 +86,7 @@ export class PollViewComponent implements OnInit, OnDestroy {
         };
         this.pollStore.dispatch({
           type: ADD_VOTE,
-          optId: this.selectedOpt,
+          optId: this.selectedOpt?.value,
           userData: userData,
         });
       });

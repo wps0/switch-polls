@@ -1,5 +1,6 @@
 export enum RouteUtils {
   POLL = 'polls/:id',
+  POLL_VOTE = 'polls/vote',
 }
 
 export interface UrlArguments {
