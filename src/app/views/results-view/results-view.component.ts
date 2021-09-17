@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { format, RouteUtils } from '@shared/RouteUtils';
 import { Store } from '@ngrx/store';
 import { PollState } from '@store/poll/poll.state';
@@ -9,6 +15,9 @@ import { Observable, Subscription } from 'rxjs';
 import { IChartData } from '@shared/models/IChartData';
 import { IResultsSummary } from '@shared/models/IResultsSummary';
 import { selectResults } from '@store/poll/poll.selectors';
+import { MatTableDataSource } from '@angular/material/table';
+import { IResult } from '@shared/models/IResult';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-results-view',
@@ -21,6 +30,8 @@ export class ResultsViewComponent implements OnInit, OnDestroy {
   resultsSub$!: Subscription;
   recaptcha$: Subscription | undefined;
   chartData: IChartData = { data: [], labels: [] };
+  tableData: IResult[] = [];
+  visibleColumns: string[] = ['option', 'count'];
 
   constructor(
     private pollStore: Store<PollState>,
@@ -30,6 +41,7 @@ export class ResultsViewComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.results$ = this.pollStore.select(selectResults);
     this.resultsSub$ = this.results$.subscribe((newResults) => {
+      this.tableData = newResults.summary;
       this.chartData = {
         labels: newResults.summary.map((res) => res.content),
         data: newResults.summary.map((res) => res.count),

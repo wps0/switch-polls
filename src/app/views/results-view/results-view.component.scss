@@ -1,0 +1,33 @@
+@import "~app/styles/responsive.mixin";
+
+.results-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  @include screen('tablet-portrait') {
+    justify-content: space-between;
+    flex-direction: row;
+  }
+}
+.results-container :not(:first-child) {
+  margin-top: 2em;
+  @include screen('tablet-portrait') {
+    margin-left: 1em;
+  }
+}
+
+.chart {
+  width: 100%;
+  @include screen('tablet-portrait') {
+    width: 50%;
+  }
+  @include screen('desktop') {
+    width: 30%;
+  }
+}
+.results-data {
+  width: 100%;
+}
+.results-table {
+  width: 100%;
+}
