@@ -1,8 +1,12 @@
 //@import "~app/styles/zsi.theme"; dodac tez do angular.json styles
 @import "~app/styles/vars";
 
-html, body {
-  min-height: 100%;
+body, app-root {
+  min-height: 100vh;
+}
+
+app-root {
+  display: block;
 }
 
 body {
