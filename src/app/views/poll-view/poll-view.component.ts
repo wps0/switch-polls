@@ -11,6 +11,7 @@ import { ReCaptchaV3Service } from 'ng-recaptcha';
 import { NotificationsService } from '@shared/services/notifications.service';
 import { UserData } from '@shared/models/UserData';
 import { format, RouteUtils } from '@shared/RouteUtils';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-poll-view',
@@ -37,6 +38,7 @@ export class PollViewComponent implements OnInit, OnDestroy {
   selectedPoll$: Observable<IPoll> = of();
   response$: Observable<string> = of();
   responseSubscription$!: Subscription;
+  pollSubscription$!: Subscription;
   recaptcha$: Subscription | undefined;
 
   constructor(
@@ -44,12 +46,18 @@ export class PollViewComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private pollStore: Store<PollState>,
     private reCaptchaV3Service: ReCaptchaV3Service,
-    private notificationsService: NotificationsService
+    private notificationsService: NotificationsService,
+    private titleService: Title
   ) {}
 
   ngOnInit(): void {
     this.response$ = this.pollStore.select(selectResponse);
     this.selectedPoll$ = this.pollStore.select(selectPoll);
+    this.pollSubscription$ = this.selectedPoll$.subscribe((poll) => {
+      if (poll.title) {
+        this.titleService.setTitle(`${poll.title} | Ankiety SWITCH`);
+      }
+    });
     this.responseSubscription$ = this.response$.subscribe((text) => {
       this.submissionDisabled = false;
       if (text.length != 0) {

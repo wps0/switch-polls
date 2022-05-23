@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { PollViewComponent } from '@views/poll-view/poll-view.component';
@@ -58,6 +58,7 @@ import { ChartComponent } from '@shared/components/chart/chart.component';
   ],
   providers: [
     { provide: RECAPTCHA_V3_SITE_KEY, useValue: environment.captchaSiteKey },
+    Title,
   ],
   bootstrap: [AppComponent],
 })
