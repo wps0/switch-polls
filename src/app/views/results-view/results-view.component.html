@@ -2,7 +2,12 @@
   <h3>Wyniki:</h3>
   <div class="results-container">
     <div class="results-data">
-      <table class="results-table" [dataSource]="tableData" mat-table matSort>
+      <table
+        class="results-table"
+        [dataSource]="tableDataSource"
+        mat-table
+        matSort
+        #resultsTbSort="matSort">
         <ng-container matColumnDef="option">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Opcja</th>
           <td mat-cell *matCellDef="let element">{{ element.content }}</td>

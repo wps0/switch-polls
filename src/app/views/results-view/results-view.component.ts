@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { format, RouteUtils } from '@shared/RouteUtils';
 import { Store } from '@ngrx/store';
 import { PollState } from '@store/poll/poll.state';
@@ -10,30 +16,36 @@ import { IChartData } from '@shared/models/IChartData';
 import { IResultsSummary } from '@shared/models/IResultsSummary';
 import { selectResults } from '@store/poll/poll.selectors';
 import { IResult } from '@shared/models/IResult';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-results-view',
   templateUrl: './results-view.component.html',
   styleUrls: ['./results-view.component.scss'],
 })
-export class ResultsViewComponent implements OnInit, OnDestroy {
+export class ResultsViewComponent implements OnInit, AfterViewInit, OnDestroy {
   selectedId: number = 0;
   results$!: Observable<IResultsSummary>;
   resultsSub$!: Subscription;
   recaptcha$: Subscription | undefined;
   chartData: IChartData = { data: [], labels: [] };
-  tableData: IResult[] = [];
+  tableDataSource: MatTableDataSource<IResult>;
   visibleColumns: string[] = ['option', 'count'];
+  @ViewChild('resultsTbSort')
+  resultsTbSort = new MatSort();
 
   constructor(
     private pollStore: Store<PollState>,
     private reCaptchaV3Service: ReCaptchaV3Service
-  ) {}
+  ) {
+    this.tableDataSource = new MatTableDataSource();
+  }
 
   ngOnInit(): void {
     this.results$ = this.pollStore.select(selectResults);
     this.resultsSub$ = this.results$.subscribe((newResults) => {
-      this.tableData = newResults.summary;
+      this.tableDataSource.data = newResults.summary;
       this.chartData = {
         labels: newResults.summary.map((res) => res.content),
         data: newResults.summary.map((res) => res.count),
@@ -55,8 +67,13 @@ export class ResultsViewComponent implements OnInit, OnDestroy {
       });
   }
 
+  ngAfterViewInit(): void {
+    this.tableDataSource.sort = this.resultsTbSort;
+  }
+
   ngOnDestroy() {
     this.resultsSub$.unsubscribe();
+    this.recaptcha$?.unsubscribe();
   }
 
   onSelectedIdChange(newId: number) {
