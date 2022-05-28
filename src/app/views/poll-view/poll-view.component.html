@@ -24,9 +24,9 @@
         *ngFor="let opt of (selectedPoll$ | async)?.options"
         class="single-radio-container">
         <mat-radio-button [value]="opt.id">
-          <div class="radio-content">
+          <span class="radio-content">
             {{ opt.content }}
-          </div>
+          </span>
         </mat-radio-button>
         <app-audio-player
           *ngIf="opt | extractExtraFromPollOption: 'url/sound'"
