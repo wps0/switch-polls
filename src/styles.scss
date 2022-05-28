@@ -24,12 +24,15 @@ body {
   align-items: center;
 }
 
-.button-container :not(:first-child) {
+.button-container > :not(:first-child) {
   margin-left: 1em;
 }
-
 
 /* https://github.com/angular/components/issues/12803 */
 .fix-suffix.mat-form-field-appearance-outline .mat-form-field-suffix {
   top: 0 !important;
+}
+
+.grecaptcha-badge {
+  visibility: hidden;
 }

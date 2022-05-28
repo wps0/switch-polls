@@ -1,14 +1,16 @@
 @import "~app/styles/vars";
+@import "~app/styles/responsive.mixin";
 
 .container-top {
   display: flex;
-  padding-right: 16px;
-  padding-bottom: 8px;
+  padding: 0 16px 8px 16px;
   color: $gray-dark;
   font-size: 13px;
+
+  flex-direction: column;
+  text-align: center;
 }
 
-.container-right {
-  text-align: right;
-  width: 100%;
+.container-top > *:not(:last-child) {
+  margin-bottom: 8px;
 }
