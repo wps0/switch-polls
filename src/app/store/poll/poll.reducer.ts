@@ -5,8 +5,8 @@ import { PollState } from '@store/poll/poll.state';
 const initialState: PollState = {
   selectedPoll: {
     id: 0,
-    title: 'Loading...',
-    description: 'Loading...',
+    title: 'Trwa ładowanie danych...',
+    description: '',
     options: [],
     is_readonly: true,
   },
