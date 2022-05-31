@@ -27,6 +27,7 @@ import { environment } from '@environments/environment';
 import { ResultsViewComponent } from '@views/results-view/results-view.component';
 import { PollViewRootComponent } from '@views/poll-view-root/poll-view-root.component';
 import { ChartComponent } from '@shared/components/chart/chart.component';
+import { MatChipsModule } from "@angular/material/chips";
 
 @NgModule({
   declarations: [
@@ -50,11 +51,11 @@ import { ChartComponent } from '@shared/components/chart/chart.component';
     HttpClientModule,
     RecaptchaV3Module,
     StoreModule.forRoot({
-      poll: fromPoll.pollReducer,
+      poll: fromPoll.pollReducer
     }),
     EffectsModule.forRoot([PollEffects]),
     MatSliderModule,
-    RecaptchaModule,
+    RecaptchaModule
   ],
   providers: [
     { provide: RECAPTCHA_V3_SITE_KEY, useValue: environment.captchaSiteKey },

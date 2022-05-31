@@ -34,3 +34,13 @@
     padding: 3em;
   }
 }
+
+.title-line-container {
+  display: flex;
+}
+.title-line-container > *:not(:first-child) {
+  margin-left: 16px;
+}
+.chip-list * {
+  font-size: 0.75rem;
+}

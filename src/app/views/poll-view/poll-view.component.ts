@@ -34,7 +34,7 @@ export class PollViewComponent implements OnInit, OnDestroy {
       },
     ],
   });
-  submissionDisabled: boolean = false;
+  submissionInProgress: boolean = false;
   selectedPoll$: Observable<IPoll> = of();
   response$: Observable<string> = of();
   responseSubscription$!: Subscription;
@@ -51,15 +51,21 @@ export class PollViewComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.pollForm.disable();
     this.response$ = this.pollStore.select(selectResponse);
     this.selectedPoll$ = this.pollStore.select(selectPoll);
     this.pollSubscription$ = this.selectedPoll$.subscribe((poll) => {
       if (poll.title) {
         this.titleService.setTitle(`${poll.title} | Ankiety SWITCH`);
+        if (poll.is_readonly) {
+          this.pollForm.disable();
+        } else {
+          this.pollForm.enable();
+        }
       }
     });
     this.responseSubscription$ = this.response$.subscribe((text) => {
-      this.submissionDisabled = false;
+      this.submissionInProgress = false;
       if (text.length != 0) {
         this.notificationsService.sendNotification(text, 5000);
       }
@@ -70,11 +76,12 @@ export class PollViewComponent implements OnInit, OnDestroy {
     if (this.recaptcha$) {
       this.recaptcha$.unsubscribe();
     }
+    this.pollSubscription$.unsubscribe();
     this.responseSubscription$.unsubscribe();
   }
 
   onSubmit() {
-    this.submissionDisabled = true;
+    this.submissionInProgress = true;
     if (this.recaptcha$) {
       this.recaptcha$.unsubscribe();
     }

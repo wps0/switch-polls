@@ -35,7 +35,7 @@
     </mat-radio-group>
 
     <div class="button-container">
-      <mat-spinner *ngIf="submissionDisabled" diameter="16"></mat-spinner>
+      <mat-spinner *ngIf="submissionInProgress" diameter="16"></mat-spinner>
       <button type="button" mat-button [routerLink]="resultsUrl" color="accent">
         Wyniki
       </button>
@@ -43,7 +43,7 @@
         type="submit"
         mat-raised-button
         color="primary"
-        [disabled]="pollForm.invalid || submissionDisabled">
+        [disabled]="pollForm.invalid || submissionInProgress || (selectedPoll$ | async)?.is_readonly">
         Wyślij!
       </button>
     </div>

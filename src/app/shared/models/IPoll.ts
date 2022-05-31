@@ -5,4 +5,5 @@ export interface IPoll {
   title: string;
   description?: string;
   options: IPollOption[];
+  is_readonly: boolean
 }

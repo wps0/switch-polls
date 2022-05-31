@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
+import { MatChipsModule } from "@angular/material/chips";
 
 @NgModule({
   exports: [
@@ -24,6 +25,7 @@ import { MatSortModule } from '@angular/material/sort';
     MatFormFieldModule,
     ScrollingModule,
     BrowserAnimationsModule,
+    MatChipsModule
   ],
 })
 export class MaterialModule {}

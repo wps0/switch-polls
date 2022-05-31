@@ -4,7 +4,12 @@
       <div class="logo-container">
         <app-logo></app-logo>
       </div>
-      <h2>{{ (selectedPoll$ | async)?.title }}</h2>
+      <div class="title-line-container">
+        <h2>{{ (selectedPoll$ | async)?.title }}</h2>
+        <mat-chip-list class="chip-list">
+          <mat-chip color="warn" selected *ngIf="(selectedPoll$ | async)?.is_readonly">Ankieta nie przyjmuje głosów</mat-chip>
+        </mat-chip-list>
+      </div>
       <p class="description">
         {{ (selectedPoll$ | async)?.description ?? "Brak opisu" }}
       </p>

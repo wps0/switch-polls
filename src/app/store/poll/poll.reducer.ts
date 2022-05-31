@@ -8,6 +8,7 @@ const initialState: PollState = {
     title: 'Loading...',
     description: 'Loading...',
     options: [],
+    is_readonly: true,
   },
   backendResponse: '',
   results: {
