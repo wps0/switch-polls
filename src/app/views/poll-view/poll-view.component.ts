@@ -6,7 +6,7 @@ import { Observable, of, Subscription } from 'rxjs';
 import { PollState } from '@store/poll/poll.state';
 import { Store } from '@ngrx/store';
 import { selectPoll, selectResponse } from '@store/poll/poll.selectors';
-import { ADD_VOTE } from '@store/poll/poll.actions';
+import { ADD_VOTE, RESET_BACKEND_RESPONSE } from "@store/poll/poll.actions";
 import { ReCaptchaV3Service } from 'ng-recaptcha';
 import { NotificationsService } from '@shared/services/notifications.service';
 import { UserData } from '@shared/models/UserData';
@@ -68,6 +68,7 @@ export class PollViewComponent implements OnInit, OnDestroy {
       this.submissionInProgress = false;
       if (text.length != 0) {
         this.notificationsService.sendNotification(text, 5000);
+        this.pollStore.dispatch({type: RESET_BACKEND_RESPONSE});
       }
     });
   }

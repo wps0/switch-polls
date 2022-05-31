@@ -42,5 +42,11 @@ export const pollReducer = createReducer(
     selectedPoll: state.selectedPoll,
     backendResponse: action.err.error ?? 'Nieznany błąd',
     results: state.results,
+  })),
+
+  on(Actions.ResetBackendResponse, (state) => ({
+    selectedPoll: state.selectedPoll,
+    backendResponse: '',
+    results: state.results,
   }))
 );

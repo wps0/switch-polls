@@ -14,6 +14,8 @@ export const ADD_VOTE = '[Poll] Add vote';
 export const VOTE_RECORDED = '[Poll] Vote recorded';
 export const VOTE_ERROR = '[Poll] Vote error';
 
+export const RESET_BACKEND_RESPONSE = '[Poll] Reset backend response';
+
 export const UpdateSelectedPoll = createAction(
   UPDATE_SELECTED_POLL,
   props<{ newPoll: IPoll }>()
@@ -42,3 +44,5 @@ export const VoteError = createAction(
   VOTE_ERROR,
   props<{ err: HttpErrorResponse }>()
 );
+
+export const ResetBackendResponse = createAction(RESET_BACKEND_RESPONSE);
